@@ -21,16 +21,17 @@ def ToroidalDomain(r, R, N):
     return X, Y, Z
 
 
-def HelicalDomain(h, R, a, N):
+def HelicalDomain(h, R, a, L, N):
     """
     Creates a surface of a helical domain.
     h:
     R:
     a:
+    L: The height of the coiled helix.
     N: The number of points in each plotting axes.
     """
     u = np.linspace(0, 2*math.pi, N)
-    t = np.linspace(0, 1, N)
+    t = np.linspace(0, L, N)
     u, t = np.meshgrid(u, t)
     X = h*t + R*a*np.sin(u)/np.sqrt(R**2 + h**2)
     Y = (R*np.cos(t) - a*np.cos(t)*np.cos(u)+(h*a*np.sin(t)*np.sin(u))/np.sqrt(R**2 + h**2))
@@ -38,6 +39,8 @@ def HelicalDomain(h, R, a, N):
     return X, Y, Z
 
 if __name__ == "__main__":
+    # Change matplotlib plotting font to LaTeX font for consistency in the Capstone document. 
+    #plt.rc('text', usetex = True); plt.rc('font', family = 'serif')
 
     # Toroidal Domain:
     x, y, z = ToroidalDomain(r = 2, R = 1, N = 300)
@@ -45,12 +48,18 @@ if __name__ == "__main__":
     ax = plt.axes(projection = '3d')
     ax.plot_surface(x, y, z, antialiased = True, color = "Gray") # Creating plot
     ax.set_box_aspect([1,1,1])
+    ax.set_xlabel("$x$")
+    ax.set_ylabel("$y$")
+    ax.set_zlabel("$z$")
     plt.show() # show plot
 
     # Helical Domain:
-    x, y, z = HelicalDomain(h = 1, R = 1, a = 3, N = 300)
+    x, y, z = HelicalDomain(h = 1, R = 3, a = 0.4, L = 10, N = 300)
     fig = plt.figure(figsize = (12, 8)) # Creating figure
     ax = plt.axes(projection = '3d')
-    ax.plot_surface(x, y, z, antialiased = True, color = "Gray") # Creating plot
+    ax.plot_surface(x, y, z, antialiased = True, color = "Grey") # Creating plot
     ax.set_box_aspect([1,1,1])
+    ax.set_xlabel("$x$")
+    ax.set_ylabel("$y$")
+    ax.set_zlabel("$z$")
     plt.show() # show plot
